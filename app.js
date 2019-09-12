@@ -4,7 +4,10 @@ var mongo = require('mongoose');
 var multer = require('multer'); 
 
 var app = express();
-var url = "mongodb://localhost/sdb"
+var url = "mongodb://localhost/gallerydb"
+
+var signuprouter = require('./routes/signup');
+var loginrouter = require('./routes/login');
 
 var storage =   multer.diskStorage({  
     destination: (req, file, callback)=>{  
@@ -26,7 +29,7 @@ mongo.connect(url,{useNewUrlParser:true}, (err)=>{
 app.use(body.urlencoded({ extended: false }));
 app.use(body.json());
 
-app.use(function (req, res, next) {
+app.use((req, res, next)=>{
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
   res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type');
@@ -34,11 +37,10 @@ app.use(function (req, res, next) {
   next();
 });
 
+app.use("/signup", signuprouter);
 
-app.post("/upload",upload,(req,res)=>{
-  console.log(req.file.filename);
-})
+app.use("/login", loginrouter);
 
-app.listen(process.env || 8080,()=>{
+app.listen(process.env.PORT || 8080,()=>{
   console.log("Listening");
 })
