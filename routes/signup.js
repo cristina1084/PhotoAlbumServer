@@ -8,7 +8,7 @@ router.use(bodyparser.json());
 
 router.post("/",(req,res)=>{
     var u1 = new user(req.body);
-    u1.save((err)=>{
+    u1.save(err=>{
         if (err) throw err;
         else res.send({msg:"User Created"});
     })
