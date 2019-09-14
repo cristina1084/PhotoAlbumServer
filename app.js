@@ -9,6 +9,8 @@ var url = "mongodb://localhost/gallerydb"
 var signuprouter = require('./routes/signup');
 var loginrouter = require('./routes/login');
 
+var picture = require('./models/picturemodel');
+
 app.use((req, res, next)=>{
   res.setHeader('Access-Control-Allow-Origin', 'http://localhost:4200');
   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
@@ -41,8 +43,13 @@ app.use("/signup", signuprouter);
 app.use("/login", loginrouter);
  
 app.post('/api', upload.any(), (req, res)=>{
-    console.log(req.files);
-    res.end('File is uploaded');
+    console.log(req.files[0]);
+    var p1 = new picture(req.files[0]);
+    p1.save((err)=>{
+        if (err) throw err;
+        else res.end('File is uploaded');
+    })
+    
 })
 
 
