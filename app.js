@@ -53,7 +53,7 @@ app.post('/api', upload.any(), (req, res)=>{
   })
 })
 
-app.post('/addalbum',(req,res)=>{
+app.post('/addalbum', (req,res)=>{
   var a1 = new album(req.body);
   a1.save(err => {
     if (err) throw err;
@@ -61,21 +61,33 @@ app.post('/addalbum',(req,res)=>{
   })
 })
 
-app.get('/getalbum',(req,res)=>{
+app.get('/getalbum', (req,res)=>{
   album.find({},(err,result)=>{
     if (err) throw err;
     else res.send(result);
   })
 })
 
-app.get("/view/:img",(req,res)=>{        //image controller
+app.get("/view/:img", (req,res)=>{        //image controller
   res.sendFile(path.join(__dirname+"/public/images/"+req.params.img));
 })
 
-app.get("/getpictures",(req,res)=>{
+app.get("/getpictures", (req,res)=>{
   picture.find({},(err,result)=>{
     if (err) throw err;
     else res.send(result);
+  })
+})
+
+app.get("/deletepicture/:picname", (req,res)=>{
+  picture.deleteOne({filename: req.params.picname}, err=>{
+    if (err) throw err;
+    else{
+      picture.find({},(err,result)=>{
+        if(err) throw err;
+        else res.send(result);
+    })
+    }
   })
 })
 
