@@ -68,6 +68,24 @@ app.get('/getalbum', (req,res)=>{
   })
 })
 
+app.post('/editalbum',(req,res)=>{
+  album.updateOne({name: req.body.oldname}, 
+    {$set:
+      {
+        name: req.body.newname,
+        description: req.body.description
+      }
+    }, (err,result)=>{
+      if (err) throw err;
+      else{
+        album.find({name: req.body.newname},(err,result)=>{
+          if (err) throw err;
+          else res.send(result);
+        })
+      }
+    })
+})
+
 app.get("/view/:img", (req,res)=>{        //image controller
   res.sendFile(path.join(__dirname+"/public/images/"+req.params.img));
 })
@@ -88,6 +106,13 @@ app.get("/deletepicture/:picname", (req,res)=>{
         else res.send(result);
     })
     }
+  })
+})
+
+app.get("/deletealbum/:albumname", (req,res)=>{
+  album.deleteOne({name: req.params.albumname}, err=>{
+    if (err) throw err;
+    else res.send({msg:"Deleted"});
   })
 })
 
