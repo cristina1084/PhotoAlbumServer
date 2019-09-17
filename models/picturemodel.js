@@ -3,6 +3,8 @@ var mongo = require('mongoose');
 var schema = mongo.Schema;
 
 var pictureSchema = new schema({
+    user: String,
+    albumName: String,
     fieldname: String,
     originalname: String,
     encoding: String,
