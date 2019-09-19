@@ -4,7 +4,7 @@ var mongo = require('mongoose');
 var path = require('path');
 
 var app = express();
-var url = "mongodb://localhost/gallerydb"
+var url = "mongodb+srv://cristina1084:Cristina1084@cluster0-qjdmb.mongodb.net/gallery?retryWrites=true&w=majority"
 
 var signuprouter = require('./routes/signup');
 var loginrouter = require('./routes/login');

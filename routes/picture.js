@@ -18,7 +18,7 @@ var upload = multer({ storage : storage});
 router.post('/api/:id1/:id2', upload.any(), (req,res) => {
   req.files[0]['user'] = req.params.id1;
   req.files[0]['albumName'] = req.params.id2;
-  console.log(req.files[0]);
+  // console.log(req.files[0]);
   var p1 = new picture(req.files[0]);
   p1.save(err => {
     if (err) throw err;
