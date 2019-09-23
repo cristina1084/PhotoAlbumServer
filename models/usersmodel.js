@@ -6,7 +6,9 @@ var userSchema = new schema({
     fullname : String,
     email : String,
     username : String,
-    password : String
+    password : String,
+    dob: Date,
+    gender: String
 });
 
 var usersModel = mongo.model("users", userSchema);

@@ -13,4 +13,25 @@ router.post("/", (req,res) => {
     })
 })
 
+router.get("/getdetails/:uid", (req,res) => {
+    user.find({username:req.params.uid}, (err, result) => {
+        if (err) throw err;
+        else res.send(result)
+    })
+})
+
+router.post("/editdetails", (req, res) => {
+    user.updateOne({username:req.body.username},
+        {$set:{
+            fullname: req.body.fullname,
+            password: req.body.password,
+            email: req.body.email,
+            dob: req.body.dob,
+            gender: req.body.gender
+        }}, err => {
+            if (err) throw err;
+            else res.redirect("/login/getdetails/"+req.body.username);
+        })
+} )
+
 module.exports = router;

@@ -18,6 +18,8 @@ var upload = multer({ storage : storage});
 router.post('/api/:id1/:id2', upload.any(), (req,res) => {
   req.files[0]['user'] = req.params.id1;
   req.files[0]['albumName'] = req.params.id2;
+  req.files[0]['title'] = '';
+  req.files[0]['description'] = '';
   // console.log(req.files[0]);
   var p1 = new picture(req.files[0]);
   p1.save(err => {
@@ -45,6 +47,17 @@ router.get("/deletepictures/:user/:albumname", (req,res) => {
     if (err) throw err;
     else res.redirect("/picture/getpictures/"+req.params.user+"/"+req.params.albumname);
   })
+})
+
+router.post('/editpicture', (req,res) => {
+  picture.updateOne({user: req.body.user, albumName: req.body.albname, filename: req.body.filename},
+    {$set: {
+      title: req.body.title,
+      description: req.body.description
+    }}, err => {
+      if (err) throw err;
+      else res.redirect("/picture/getpictures/"+req.body.user+"/"+req.body.albname);
+    })
 })
 
 module.exports=router;

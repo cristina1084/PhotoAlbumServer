@@ -28,7 +28,17 @@ router.post('/editalbum', (req,res) => {
       }
     }, err => {
       if (err) throw err;
-      else res.send({msg: "Updated"});
+      else {
+        picture.updateMany({user: req.body.user, albumName: req.body.oldname},
+          {$set:
+            {
+              albumName: req.body.newname
+            }
+          }, err => {
+            if (err) throw err;
+            else res.send({msg: "Updated"});
+          })
+      }
     })
 })
 

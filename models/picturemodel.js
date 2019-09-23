@@ -12,7 +12,9 @@ var pictureSchema = new schema({
     destination: String,
     filename: String,
     path: String,
-    size: Number
+    size: Number,
+    title: String,
+    description: String
 });
 
 var pictureModel = mongo.model("pictures", pictureSchema);
